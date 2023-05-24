@@ -1,8 +1,12 @@
 import './App.css';
-import Home from './home/Home';
+import AppBar from './home/header/AppBar';
 
 function App() {
-  return <Home />;
+  return (
+    <>
+      <AppBar appTitle='PET BOARDING SERVICE' />
+    </>
+  );
 }
 
 export default App;
