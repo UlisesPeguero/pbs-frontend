@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function BreadCrumbs({ module }) {
-  console.log(module);
   return (
     <div className="module-breadcrumbs py-0 px-4">
       <ol className="breadcrumb">
