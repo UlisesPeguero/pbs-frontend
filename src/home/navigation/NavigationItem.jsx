@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from '../../ui/Icon';
 import { useNavigate } from 'react-router-dom';
 
