@@ -3,7 +3,7 @@ import { Icon } from '../../ui/Icon';
 import { useNavigate } from 'react-router-dom';
 
 export default function NavigationItem(props) {
-  const { id, path, icon } = props.module;
+  const { id, name, path, icon } = props.module;
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(path);
@@ -19,6 +19,7 @@ export default function NavigationItem(props) {
           <button
             className='nav-link py-1 px-3 border-bottom rounded-0'
             onClick={handleClick}
+            title={name}
           >
             <ModuleIcon />
           </button>

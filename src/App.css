@@ -41,7 +41,7 @@ header {
 }
 
 .navigation-sidebar li {
-  transition: 300ms linear;
+  /*transition: 100ms linear;*/
 }
 
 .navigation-sidebar li:hover {

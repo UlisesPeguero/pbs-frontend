@@ -3,23 +3,31 @@ import NavigationItem from './NavigationItem';
 
 export default function NavigationBar() {
   const [modules, setModules] = useState([]);
-  const [activeModuleId, setActiveModuleId] = useState(null);
+  const [activeModuleId, setActiveModuleId] = useState(0);
   const handleActive = id => {
     setActiveModuleId(id);
   };
 
   useEffect(() => {
 
-    setModules([
+    // TODO: Fetch modules from API
+    setModules(state => [
       { id: 1, name: 'Home', path: '/', icon: 'House', active: false },
       { id: 2, name: 'Test', path: '/test', icon: 'PeopleFill', active: false }
     ]);
 
-    const currentPath = window.location.pathname;
-    console.log(currentPath, modules.find(module => currentPath == module.path));
-    setActiveModuleId(1);
-
+    return () => setModules([]);
   }, []);
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    for (let index in modules) { // TODO: Figure out why .find didn't work
+      if (modules[index].path === currentPath) {
+        setActiveModuleId(id => modules[index].id);
+        break;
+      }
+    }
+  }, [modules]);
+
 
   return (
     <nav className="navigation-sidebar d-flex flex-column fleshrink-0 shadow-sm mb-auto">
