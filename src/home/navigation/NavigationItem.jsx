@@ -7,7 +7,7 @@ export default function NavigationItem(props) {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(path);
-    props.setActive(id);
+    props.setActive(props.module);
   };
   const ModuleIcon = () => <Icon iconName={icon} className='my-2' />;
   return (

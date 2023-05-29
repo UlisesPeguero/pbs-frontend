@@ -1,16 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function BreadCrumbs({ module }) {
+export default function BreadCrumbs({ name, path, location }) {
+  const locations = location?.split('/') || [];
   return (
     <div className="module-breadcrumbs py-0 px-4">
       <ol className="breadcrumb">
+
         <li className='breadcrumb-item'>
-          <Link to={module.path}>
-            {module.name}
-          </Link>
+          {
+            locations.length > 0
+              ? <Link to={path}>{name}</Link>
+              : name?.toUpperCase()
+          }
         </li>
-        <li className="breadcrumb-item active">LOCATION</li>
+        {
+          locations.map(location => <li className="breadcrumb-item active">{location}</li>)
+        }
       </ol>
     </div>
   );
