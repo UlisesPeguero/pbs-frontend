@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import AppBar from './home/header/AppBar';
-import NavigationBar from './home/navigation/NavigationBar';
+import AppBar from './dashboard/header/AppBar';
+import NavigationBar from './dashboard/navigation/NavigationBar';
 import Home from './modules/Home';
 import Test from './modules/Test';
-import BreadCrumbs from './home/BreadCrumbs';
+import BreadCrumbs from './dashboard/BreadCrumbs';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
           <main className='content pt-1 px-4 col-md-12 col-lg-10 col-xl-8  col-xxl-6'>
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='/test' element={<Test />} />
+              <Route path='/users' element={<Test />} />
             </Routes>
           </main>
         </div>

@@ -15,9 +15,9 @@ export default function UserInformation(props) {
         }
         <button className='btn dropdown-toggle dropdown-toggle-split' type='button' data-bs-toggle='dropdown' aria-expanded='false'></button>
         <ul className="dropdown-menu position-fixed">
-          <li><a className="dropdown-item" href=''>Profile</a></li>
+          <li><a className="dropdown-item" href='#' role='button'>Profile</a></li>
           <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item" href=''>
+          <li><a className="dropdown-item" href='#' role='button'>
             Sign out
             <BoxArrowRight size={28} className='float-end' />
           </a></li>

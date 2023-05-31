@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavigationItem from './NavigationItem';
 
 export default function NavigationBar({ modules, activeModule, handleActiveModule }) {
