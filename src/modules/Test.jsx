@@ -1,15 +1,12 @@
 import React from 'react';
 import Button from '../ui/Button';
 import { PeopleFill } from 'react-bootstrap-icons';
+import ContentHeader from '../dashboard/content/ContentHeader';
 
 export default function Test() {
   return (
     <>
-      <h1>Testing</h1>
-      <Button>
-        <PeopleFill size={24} />
-        &nbsp;Meow
-      </Button>
+      <ContentHeader title='Test title' />
     </>
   );
 }
