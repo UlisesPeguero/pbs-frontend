@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Button({ children, type = 'button', onClick, classes = 'btn-primary' }) {
+export default function Button({ children, type = 'button', onClick, classes = 'btn-primary', tooltip }) {
   // TODO: Testing styles
   const style = {
     outline: 'none',
@@ -9,7 +9,7 @@ export default function Button({ children, type = 'button', onClick, classes = '
     boxShadow: '0 1px 4px rgba(0, 0, 0, .6)'
   };
   return (
-    <button style={style} className={'btn ' + classes} type={type} onClick={onclick}>
+    <button style={style} className={'btn ' + classes} type={type} onClick={onClick} title={tooltip}>
       {children}
     </button>
   );
