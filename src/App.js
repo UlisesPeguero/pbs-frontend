@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import AppBar from './dashboard/header/AppBar';
 import NavigationBar from './dashboard/navigation/NavigationBar';
-import Home from './modules/Home';
-import Test from './modules/Test';
+import Home from './modules/home/Home';
+import Test from './modules/test/Test';
 import BreadCrumbs from './dashboard/BreadCrumbs';
 import { useEffect, useState } from 'react';
 

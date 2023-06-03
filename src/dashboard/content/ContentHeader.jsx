@@ -22,7 +22,8 @@ const BackButton = function ({ backButtonTo, value = null, classes = 'btn-second
 export default function ContentHeader({
   backButton = true,
   backButtonTo = -1,
-  title = ''
+  title = '',
+  children
 }) {
 
   return (
@@ -31,6 +32,9 @@ export default function ContentHeader({
         backButton && <BackButton backButtonTo={backButtonTo} value={typeof backButton !== 'boolean' ? backButton : null} />
       }
       <span className='fw-semibold px-2'>{title}</span>
+      {
+        children
+      }
     </div>
   );
 }
