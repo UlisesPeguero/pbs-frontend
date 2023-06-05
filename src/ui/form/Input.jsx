@@ -1,13 +1,15 @@
 import React from 'react';
 
-export default function Input({ label, type = 'text' }) {
-  const containerClass = '';
+export default function Input({ name, label, type = 'text', containerClasses, inputClasses = '', ...rest }) {
+  const _containerClass = '' + containerClasses;
+  const _inputClass = 'form-control' + inputClasses;
+  const _labelClass = 'form-label';
   return (
-    <div className={containerClass}>
+    <div className={_containerClass}>
       {
-        label && <label htmlFor=''>{label}</label>
+        label && <label htmlFor={name} className={_labelClass}>{label}</label>
       }
-      <input type={type} />
+      <input id={name} name={name} type={type} className={_inputClass} {...rest} />
     </div>
   );
 }

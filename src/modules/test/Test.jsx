@@ -1,6 +1,7 @@
 import React from 'react';
 import ContentHeader from '../../dashboard/content/ContentHeader';
 import ToolBar from '../../ui/ToolBar';
+import TestForm from './TestForm';
 
 export default function Test() {
 
@@ -24,6 +25,7 @@ export default function Test() {
           }
         ]} />
       </ContentHeader>
+      <TestForm />
     </>
   );
 }
