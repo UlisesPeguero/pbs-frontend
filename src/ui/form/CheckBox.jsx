@@ -3,12 +3,17 @@ import CheckBoxInput from './_CheckBoxInput';
 
 export default function CheckBox({
   containerClasses = 'col-12',
+  isSwitch,
   ...rest
 }) {
-  const _containerClass = containerClasses;
+  const switchProps = isSwitch ? { role: 'switch', containerClasses: 'form-switch' } : {};
   return (
-    <div className={_containerClass}>
-      <CheckBoxInput {...rest} />
+    <div className={containerClasses}>
+      <CheckBoxInput
+        type='checkbox'
+        {...switchProps}
+        {...rest}
+      />
     </div>
   );
 }

@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 
-export default function CheckBoxInput({
+export default function _CheckBoxInput({
+  id,
   name,
   label,
   checked: _checked = false,
-  isSwitch,
+  containerClasses = '',
   inputClasses = '',
   labelClasses = '',
   ...rest
 }) {
-  const _containerCheckClass = 'form-check' + (isSwitch ? ' form-switch' : '');
+  const _containerClass = 'form-check ' + containerClasses;
   const _inputClass = 'form-check-input ' + inputClasses;
   const _labelClass = 'form-check-label ' + labelClasses;
+  const _id = id ? id : name;
   const [checked, setChecked] = useState(_checked);
 
   const handleCheckStatus = () => setChecked(!checked);
   return (
     <>
-      <div className={_containerCheckClass}>
+      <div className={_containerClass}>
         <input
-          id={name}
+          id={_id}
           name={name}
           className={_inputClass}
-          type='checkbox'
           checked={checked}
           onChange={handleCheckStatus}
-          role={isSwitch ? 'switch' : null}
           {...rest}
         />
-        <label htmlFor={name} className={_labelClass}>{label}</label>
+        <label htmlFor={_id} className={_labelClass}>{label}</label>
       </div>
     </>
   );

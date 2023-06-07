@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../../ui/form/Input';
 import CheckBox from '../../ui/form/CheckBox';
+import Radio from '../../ui/form/Radio';
 
 export default function TestForm() {
   return (
@@ -37,7 +38,16 @@ export default function TestForm() {
         name='regularBox'
         label='Regular one'
       />
-
+      <Radio
+        name='testRadio'
+        //selectedValue='test2'
+        inline
+        options={[
+          { value: 'test1', label: 'Test 1' },
+          { value: 'test2', label: 'Test 2' },
+          { value: 'test3', label: 'Test 3' },
+        ]}
+      />
     </form>
   );
 }
