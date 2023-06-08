@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Input({ name, label, type = 'text', containerClasses, inputClasses = '', ...rest }) {
+export default function Input({ name, label, type = 'text', containerClasses = 'col-12', inputClasses = '', ...rest }) {
   const _containerClass = '' + containerClasses;
   const _inputClass = 'form-control' + inputClasses;
   const _labelClass = 'form-label';
