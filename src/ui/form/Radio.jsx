@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CheckBoxInput from './_CheckBoxInput';
 
 export default function Radio({
   containerClasses = 'col-12',
   options = [],
   name,
-  selectedValue,
+  selectedValue: _selectedValue,
   inline,
   ...rest
 }) {
+  const [selectedValue, setSelectedValue] = useState(_selectedValue);
+
+  const handleSelectedOption = value => {
+    setSelectedValue(value);
+  };
+
   return (
     <div className={containerClasses}>
       {
@@ -19,7 +25,8 @@ export default function Radio({
             type='radio'
             id={name + index}
             name={name}
-            //checked={option.value === selectedValue}
+            checked={option.value === selectedValue}
+            onChange={() => handleSelectedOption(option.value)}
             {...option}
           />
         )

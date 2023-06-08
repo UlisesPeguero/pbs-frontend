@@ -5,10 +5,11 @@ export default function ToolBar({ buttons, align, classes = '' }) {
   return (
     <div className={"d-flex" + (align === 'right' ? ' ms-auto' : '') + classes}>
       {
-        buttons.map(button => {
+        buttons.map((button, index) => {
           return button.separator
-            ? <div className='vr mx-2' />
+            ? <div className='vr mx-2' key={'separator' + index} />
             : <Button
+              key={button.name + index}
               text={button.name}
               icon={button.icon}
               classes={button.classes}

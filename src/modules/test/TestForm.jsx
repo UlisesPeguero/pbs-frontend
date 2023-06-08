@@ -2,10 +2,21 @@ import React from 'react';
 import Input from '../../ui/form/Input';
 import CheckBox from '../../ui/form/CheckBox';
 import Radio from '../../ui/form/Radio';
+import Select from '../../ui/form/Select';
 
 export default function TestForm() {
   return (
     <form className="row g-3">
+      <Select
+        name='select'
+        label='Select test'
+        selectedValue={2}
+        options={[
+          { id: 1, description: 'This' },
+          { id: 2, description: 'That' },
+          { id: 3, description: 'Those' },
+        ]}
+      />
       <Input
         name='firstName'
         label='First name'
@@ -36,11 +47,12 @@ export default function TestForm() {
       />
       <CheckBox
         name='regularBox'
-        label='Regular one'
+        label='Regular one "reverse"'
+        reverse
       />
       <Radio
         name='testRadio'
-        //selectedValue='test2'
+        selectedValue='test2'
         inline
         options={[
           { value: 'test1', label: 'Test 1' },
