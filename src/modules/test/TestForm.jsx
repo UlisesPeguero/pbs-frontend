@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../../ui/form/Input';
 import CheckBox from '../../ui/form/CheckBox';
 import Radio from '../../ui/form/Radio';
 import Select from '../../ui/form/Select';
+import ToolBar from '../../ui/ToolBar';
 
 export default function TestForm() {
+  const [btnSaveBusy, setBtnSaveBusy] = useState(false);
+  const handleBtnSaveUpdate = () => setBtnSaveBusy(!btnSaveBusy);
   return (
     <form className="row g-3">
       <Select
@@ -60,6 +63,30 @@ export default function TestForm() {
           { value: 'test3', label: 'Test 3' },
         ]}
       />
+
+      <ToolBar
+        classes='w-100'
+        gap={3}
+        buttons={[
+          {
+            icon: 'Eraser',
+            classes: 'btn-secondary me-auto',
+            message: 'Reset form',
+            type: 'reset',
+          }, {
+            text: 'Cancel',
+            classes: 'btn-secondary',
+            message: 'Cancel',
+            onClick: handleBtnSaveUpdate
+          }, {
+            text: 'Save',
+            icon: 'Save',
+            message: 'Save all changes',
+            busy: btnSaveBusy
+          }
+        ]}
+      />
+
     </form>
   );
 }
