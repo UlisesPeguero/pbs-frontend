@@ -19,6 +19,9 @@ export default createBrowserRouter([
         path: '/users',
         element: <MainContainer />,
         errorElement: <p>User's error </p>,
+        handle: {
+          rootLocationName: 'Users',
+        },
         children: [
           {
             index: true,
@@ -28,7 +31,7 @@ export default createBrowserRouter([
             path: 'add',
             element: <Users action='ADD' />,
             handle: {
-              nameLocation: 'New',
+              locationName: 'New',
             },
           },
         ],

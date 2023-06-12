@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
-function mainPathFromLocation() {
-  const [currentPath = ''] = window.location.pathname.match(/^([/]\w*)/gi);
-  return currentPath;
-}
-export default function BreadCrumbs({ name, path, location }) {
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useMatches } from 'react-router-dom';
+import getCurrentPath from '../common/currentLocation';
+export default function BreadCrumbs() {
+  const [locations, setLocations] = useState([]);
+  const [path, setPath] = useState();
+  const [name, setName] = useState();
   const appLocation = useLocation();
+  const matches = useMatches();
+  const currentPath = getCurrentPath();
 
   useEffect(() => {
-    //TODO: resolve location automatically
+    setName(matches[0]?.handle?.rootLocationName || currentPath);
+    setPath(currentPath);
+    setLocations(matches.filter(match => match.pathname !== currentPath && match?.handle?.locationName));
   }, [appLocation]);
 
-  const locations = location?.split('/') || [];
   return (
     <div className="module-breadcrumbs py-0 px-4">
       <ol className="breadcrumb">
@@ -21,11 +23,11 @@ export default function BreadCrumbs({ name, path, location }) {
           {
             locations.length > 0
               ? <Link to={path}>{name}</Link>
-              : name?.toUpperCase()
+              : name
           }
         </li>
         {
-          locations.map(location => <li className="breadcrumb-item active">{location}</li>)
+          locations.map(location => <li className="breadcrumb-item active">{location.pathname}</li>)
         }
       </ol>
     </div>
