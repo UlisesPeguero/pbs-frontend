@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+function mainPathFromLocation() {
+  const [currentPath = ''] = window.location.pathname.match(/^([/]\w*)/gi);
+  return currentPath;
+}
 export default function BreadCrumbs({ name, path, location }) {
   const appLocation = useLocation();
 
