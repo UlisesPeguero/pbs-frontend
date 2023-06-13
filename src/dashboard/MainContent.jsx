@@ -1,9 +1,10 @@
 import React from 'react';
+import { Outlet } from 'react-router';
 
-export default function MainContent() {
+export default function MainContainer() {
   return (
-    <div className='d-flex'>
-      Main content
-    </div>
+    <>
+      <Outlet />
+    </>
   );
 }
