@@ -10,9 +10,12 @@ export default function BreadCrumbs() {
   const currentPath = getCurrentPath();
 
   useEffect(() => {
-    setName(matches[0]?.handle?.rootLocationName || currentPath);
-    setPath(currentPath);
-    setLocations(matches.filter(match => match.pathname !== currentPath && match?.handle?.locationName));
+    if (matches.length > 0) {
+      setName(matches.find(match => match.pathname === currentPath && match?.handle?.rootLocationName)?.handle?.rootLocationName);
+      setPath(currentPath);
+      setLocations(matches.filter(match => match.pathname !== currentPath && match?.handle?.locationName));
+    }
+
   }, [appLocation]);
 
   return (
@@ -22,12 +25,12 @@ export default function BreadCrumbs() {
         <li className='breadcrumb-item'>
           {
             locations.length > 0
-              ? <Link to={path}>{name}</Link>
+              ? <Link className='link-primary' to={path}>{name}</Link>
               : name
           }
         </li>
         {
-          locations.map(location => <li className="breadcrumb-item active">{location.pathname}</li>)
+          locations.map(location => <li key={location.pathname} className="breadcrumb-item active">{location.handle.locationName}</li>)
         }
       </ol>
     </div>

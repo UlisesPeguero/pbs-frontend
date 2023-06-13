@@ -14,6 +14,9 @@ export default createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        handle: {
+          rootLocationName: 'Home',
+        },
       },
       {
         path: '/users',
