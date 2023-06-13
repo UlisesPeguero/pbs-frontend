@@ -34,7 +34,24 @@ export default function UsersGrid() {
             }
           ]} />
       </ContentHeader>
-      <Grid />
+      <Grid id='usersGrid'
+        classes='table-striped table-bordered table-hover'
+        model={[
+          {
+            name: 'username',
+            label: 'Username',
+            classes: 'fw-semibold text-center',
+          }, {
+            name: 'roles',
+            label: 'Roles'
+          }
+        ]}
+        data={[
+          { username: 'fox', roles: 'ADMIN' },
+          { username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+        ]}
+      />
     </>
   );
 }
