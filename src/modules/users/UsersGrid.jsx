@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolBar from '../../ui/ToolBar';
 import ContentHeader from '../../dashboard/content/ContentHeader';
-import Grid from '../../ui/Grid';
+import Grid from '../../ui/grid/Grid';
 import { useNavigate } from 'react-router-dom';
 
 export default function UsersGrid() {
@@ -38,6 +38,10 @@ export default function UsersGrid() {
         classes='table-striped table-bordered table-hover'
         model={[
           {
+            name: 'id',
+            label: 'ID',
+            hidden: true
+          }, {
             name: 'username',
             label: 'Username',
             classes: 'fw-semibold text-center',
@@ -47,9 +51,9 @@ export default function UsersGrid() {
           }
         ]}
         data={[
-          { username: 'fox', roles: 'ADMIN' },
-          { username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 1, username: 'fox', roles: 'ADMIN' },
+          { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
         ]}
       />
     </>
