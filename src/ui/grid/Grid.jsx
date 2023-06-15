@@ -1,6 +1,7 @@
-import React from 'react';
-import { ArrowLeft, ArrowRight, LayerBackward } from 'react-bootstrap-icons';
+import React, { useEffect } from 'react';
+import { ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
+import GridToolBar from './_GridToolBar';
 
 
 function GridHeader({ model }) {
@@ -44,12 +45,17 @@ export default function Grid({
   rowsPerPage = 20,
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
+  toolbarContainerId,
   ...rest
 }) {
   const _tableClass = 'table ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
+
+  useEffect({}, []);
+
   return (
     <>
+      {toolbarContainerId && <GridToolBar containerId={toolbarContainerId} />}
       <table className={_tableClass} {...rest}>
         <GridHeader model={filteredModel} />
         <GridBody data={data} model={filteredModel} idName={idName} />

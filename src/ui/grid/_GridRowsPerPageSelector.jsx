@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from '../form/Select';
 
-export default function _GridRowsPerPageSelector({
+export default function GridRowsPerPageSelector({
   gridName,
   onChange,
   selectedValue,

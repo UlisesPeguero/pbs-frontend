@@ -24,17 +24,11 @@ export default function UsersGrid() {
               onClick: () => console.log('Other test something')
             }
           ]} />
-        <ToolBar align='right'
-          buttons={[
-            {
-              text: 'Other stuff',
-              message: 'Some other stuff..',
-              icon: 'Table',
-              onClick: () => console.log('Other something')
-            }
-          ]} />
+        <div id='usersGridToolbar' className='ms-auto'></div>
       </ContentHeader>
-      <Grid id='usersGrid'
+      <Grid
+        id='usersGrid'
+        toolbarContainerId='usersGridToolbar'
         classes='table-striped table-bordered table-hover'
         model={[
           {
