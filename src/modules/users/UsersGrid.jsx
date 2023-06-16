@@ -28,7 +28,14 @@ export default function UsersGrid() {
       </ContentHeader>
       <Grid
         id='usersGrid'
-        toolbarContainerId='usersGridToolbar'
+        toolbar={{
+          containerId: 'usersGridToolbar',
+          search: true,
+          buttons: [
+            'refresh',
+            'filter'
+          ]
+        }}
         classes='table-striped table-bordered table-hover'
         model={[
           {

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
-
+import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
 
 function GridHeader({ model }) {
   return (
@@ -45,17 +45,36 @@ export default function Grid({
   rowsPerPage = 20,
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
-  toolbarContainerId,
+  toolbar,
   ...rest
 }) {
   const _tableClass = 'table ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
+  const [domReady, setDomReady] = useState(false);
 
-  useEffect({}, []);
+  useEffect(() => { // wait for DOM to be ready for the toolbar
+    setDomReady(true);
+  }, []);
+
+  // toolbar handler
+  const handleToolBarActions = (action, value) => {
+    switch (action) {
+      case Toolbar.SEARCH: console.log('S', action, value);
+        break;
+      case Toolbar.REFRESH: console.log('R', action, value);
+        break;
+      case Toolbar.FILTER: console.log('F', action, value);
+        break;
+      default: //
+    }
+  };
 
   return (
     <>
-      {toolbarContainerId && <GridToolBar containerId={toolbarContainerId} />}
+      {
+        domReady && toolbar?.containerId &&
+        <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
+      }
       <table className={_tableClass} {...rest}>
         <GridHeader model={filteredModel} />
         <GridBody data={data} model={filteredModel} idName={idName} />
