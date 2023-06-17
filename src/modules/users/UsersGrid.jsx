@@ -45,10 +45,14 @@ export default function UsersGrid() {
           }, {
             name: 'username',
             label: 'Username',
+            length: 200,
             classes: 'fw-semibold text-center',
           }, {
             name: 'roles',
-            label: 'Roles'
+            label: 'Roles',
+            length: 400
+          }, {
+            name: 'toolbar',
           }
         ]}
         data={[
@@ -58,7 +62,23 @@ export default function UsersGrid() {
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+        ]}
+        rowToolBar={[
+          {
+            icon: 'Trash',
+            size: 'sm',
+            classes: 'btn-danger',
+            onClick: (data) => console.log(`Delete row ID:${data.id}`)
+          }, {
+            icon: 'Pen',
+            size: 'sm',
+            onClick: (data) => console.log(`Open for edition row ID:${data.id}`)
+          }
         ]}
       />
     </>

@@ -1,6 +1,21 @@
 import React from 'react';
 import { Icon } from './Icon';
 
+function ButtonContent({ icon, text, busy, spinnerClass }) {
+  return (
+    <>
+      {
+        (icon && !busy) && <Icon iconName={icon} size={22} />
+      }
+      {
+        busy && <span className={spinnerClass}></span>
+      }
+      {
+        text && <span className={'d-none d-sm-inline' + (icon ? ' ms-1' : '')}>{text}</span>
+      }
+    </>);
+}
+
 export default function Button({
   id,
   text,
@@ -24,23 +39,6 @@ export default function Button({
     boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
 
   };
-
-  let ButtonContent = null;
-  if (text || icon) {
-    ButtonContent = () =>
-      <>
-        {
-          (icon && !busy) && <Icon iconName={icon} size={22} />
-        }
-        {
-          busy && <span className={spinnerClass}></span>
-        }
-        {
-          text && <span className={'d-none d-sm-inline' + (icon ? ' ms-1' : '')}>{text}</span>
-        }
-      </>;
-  }
-
   return (
     <button
       id={id || 'btn' + (text ? text.replace(' ', '') : icon)}
@@ -53,8 +51,8 @@ export default function Button({
       {...rest}
     >
       {
-        ButtonContent
-          ? <ButtonContent />
+        (text || icon)
+          ? <ButtonContent{...{ icon, text, busy, spinnerClass }} />
           : children
       }
     </button>

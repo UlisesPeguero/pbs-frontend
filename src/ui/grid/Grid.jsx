@@ -3,34 +3,64 @@ import { ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
+import ToolBar from '../ToolBar';
 
 function GridHeader({ model }) {
   return (
     <thead>
       <tr>
         {
-          model.map(column => <th key={column.name} className='text-center'>{column.label}</th>)
+          model.map(column => {
+            const style = { ...column.style } || {};
+            if (column.length)
+              style.width = column.length + (typeof column.length === 'number' ? 'px' : '');
+            return (
+              <th
+                key={column.name}
+                className='text-center'
+                style={style}
+              >
+                {column.label}
+              </th>);
+          }
+          )
         }
       </tr>
     </thead>
   );
 }
 
-function DataRow({ model, data }) {
+function RowToolBar({ data, rowToolBar }) {
+  const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data) }));
+  return <ToolBar gap={1} buttons={newToolBar} />;
+}
+
+function DataRow({ model, data, rowToolBar }) {
   return (
     <tr>
       {
-        model.map(({ name, classes = '' }) => <td key={name} className={classes}>{data[name]}</td>)
+        model.map(({ name, classes = '' }) => {
+
+          return (
+            <td key={name} className={classes}>
+              {
+                (rowToolBar && name === 'toolbar')
+                  ? <RowToolBar data={data} rowToolBar={rowToolBar} />
+                  : data[name]
+              }
+            </td>);
+        })
       }
+
     </tr>
   );
 }
 
-function GridBody({ model, data, idName }) {
+function GridBody({ model, data, rowToolBar, idName }) {
   return (
     <tbody>
       {
-        data.map((row, index) => <DataRow key={row[idName] + '_' + index || `row-${index}`} model={model} data={row} />)
+        data.map((row, index) => <DataRow key={row[idName] + '_' + index || `row-${index}`} rowToolBar={rowToolBar} model={model} data={row} />)
       }
     </tbody>
   );
@@ -43,12 +73,14 @@ export default function Grid({
   idName = 'id',
   classes = '',
   rowsPerPage = 20,
+  height = '20vh',
+  rowToolBar = {},
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
   toolbar,
   ...rest
 }) {
-  const _tableClass = 'table ' + classes;
+  const _tableClass = 'table w-auto bg-white shadow ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
 
@@ -70,15 +102,15 @@ export default function Grid({
   };
 
   return (
-    <div className='vstack'>
+    <div className='vstack gap-3' style={{ height }}>
       {
         domReady && toolbar?.containerId &&
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       }
-      <div className="container p-0">
+      <div className="d-flex p-0 w-100 bg-secondary overflow-auto">
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} />
-          <GridBody data={data} model={filteredModel} idName={idName} />
+          <GridBody data={data} model={filteredModel} rowToolBar={rowToolBar} idName={idName} />
         </table>
       </div>
       <div className='d-flex align-items-center'>
