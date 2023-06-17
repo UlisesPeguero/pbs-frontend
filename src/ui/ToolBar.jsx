@@ -16,6 +16,7 @@ export default function ToolBar({ buttons, align, classes = '', gap, ...rest }) 
               tooltip={button.message}
               onClick={button.onClick}
               type={button.type}
+              size={button.size}
               busy={button.busy}
             />;
         })

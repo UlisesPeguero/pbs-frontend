@@ -30,7 +30,7 @@ function GridBody({ model, data, idName }) {
   return (
     <tbody>
       {
-        data.map((row, index) => <DataRow key={row[idName] || `row-${index}`} model={model} data={row} />)
+        data.map((row, index) => <DataRow key={row[idName] + '_' + index || `row-${index}`} model={model} data={row} />)
       }
     </tbody>
   );
@@ -70,15 +70,17 @@ export default function Grid({
   };
 
   return (
-    <>
+    <div className='vstack'>
       {
         domReady && toolbar?.containerId &&
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       }
-      <table className={_tableClass} {...rest}>
-        <GridHeader model={filteredModel} />
-        <GridBody data={data} model={filteredModel} idName={idName} />
-      </table>
+      <div className="container p-0">
+        <table className={_tableClass} {...rest}>
+          <GridHeader model={filteredModel} />
+          <GridBody data={data} model={filteredModel} idName={idName} />
+        </table>
+      </div>
       <div className='d-flex align-items-center'>
         <GridRowsPerPageSelector
           gridName={name}
@@ -97,6 +99,6 @@ export default function Grid({
           </ul>
         </nav>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
 
+function SimpleInput({
+  name,
+  type,
+  classes,
+  ...rest
+}) {
+  const inputClass = 'form-control ' + classes;
+  return (
+    <input id={name}
+      name={name}
+      type={type}
+      className={inputClass}
+      {...rest} />
+  );
+}
+
 export default function Input({
   name,
   label,
@@ -9,20 +25,20 @@ export default function Input({
   initialValue = '',
   ...rest }) {
   const _containerClass = '' + containerClasses;
-  const _inputClass = 'form-control' + inputClasses;
   const _labelClass = 'form-label';
-
 
   return (
     <div className={_containerClass}>
       {
         label && <label htmlFor={name} className={_labelClass}>{label}</label>
       }
-      <input id={name}
+      <SimpleInput
         name={name}
         type={type}
-        className={_inputClass}
+        classes={inputClasses}
         {...rest} />
     </div>
   );
 }
+
+export { SimpleInput };

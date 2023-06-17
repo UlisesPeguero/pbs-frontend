@@ -9,6 +9,7 @@ export default function Button({
   type = 'button',
   onClick,
   classes = 'btn-primary',
+  size = '',
   busy = false,
   spinnerClass = 'spinner-border spinner-border-sm',
   tooltip,
@@ -44,7 +45,7 @@ export default function Button({
     <button
       id={id || 'btn' + (text ? text.replace(' ', '') : icon)}
       style={style}
-      className={'btn ' + classes}
+      className={`btn ${classes.length > 0 ? classes : ''} ${size.length > 0 ? 'btn-' + size : ''}`}
       type={type}
       onClick={onClick}
       title={tooltip}

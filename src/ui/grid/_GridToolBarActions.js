@@ -7,12 +7,12 @@ const TOOLBAR_ACTIONS = {
 const TOOLBAR_BUTTONS = {
   refresh: {
     id: '_refreshButton',
-    classes: 'btn-secondary',
+    classes: 'btn-sm btn-secondary',
     icon: 'ArrowClockwise',
   },
   filter: {
     id: '_filterButton',
-    classes: 'btn-secondary',
+    classes: 'btn-sm btn-secondary',
     icon: 'Filter',
   },
 };

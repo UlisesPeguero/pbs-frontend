@@ -30,7 +30,7 @@ export default function UsersGrid() {
         id='usersGrid'
         toolbar={{
           containerId: 'usersGridToolbar',
-          search: true,
+          search: { onEnter: true },
           buttons: [
             'refresh',
             'filter'
@@ -54,6 +54,10 @@ export default function UsersGrid() {
         data={[
           { id: 1, username: 'fox', roles: 'ADMIN' },
           { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
         ]}
       />
