@@ -68,8 +68,9 @@ function GridBody({ model, data, rowToolBar, idName }) {
 
 export default function Grid({
   name = '_grid',
+  localData = true,
   model = [],
-  data = [],
+  data: _data = [],
   idName = 'id',
   classes = '',
   rowsPerPage = 20,
@@ -83,6 +84,7 @@ export default function Grid({
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
+  const [data, setData] = useState(_data);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
@@ -92,6 +94,10 @@ export default function Grid({
   const handleToolBarActions = (action, value) => {
     switch (action) {
       case Toolbar.SEARCH: console.log('S', action, value);
+        if (localData) {
+          // TODO: Filter local data searching thru the searchable fields
+          // setData([...data].filter(row => ))
+        }
         break;
       case Toolbar.REFRESH: console.log('R', action, value);
         break;
