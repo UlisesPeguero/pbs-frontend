@@ -66,6 +66,16 @@ function GridBody({ model, data, rowToolBar, idName }) {
   );
 }
 
+function searchAndFilterLocalData(data, searchValue, searchableColumns) {
+  const checkForValue = (value, row) => {
+    for (let column of searchableColumns) {
+      if (row[column].toLowerCase().includes(value.toLowerCase())) return true;
+    }
+    return false;
+  };
+  return [...data].filter(row => checkForValue(searchValue, row));
+}
+
 export default function Grid({
   name = '_grid',
   localData = true,
@@ -90,13 +100,14 @@ export default function Grid({
     setDomReady(true);
   }, []);
 
+  const searchableColumns = model.map(column => column.searchable);
   // toolbar handler
   const handleToolBarActions = (action, value) => {
     switch (action) {
       case Toolbar.SEARCH: console.log('S', action, value);
         if (localData) {
           // TODO: Filter local data searching thru the searchable fields
-          // setData([...data].filter(row => ))
+          setData(searchAndFilterLocalData(data, value, searchableColumns));
         }
         break;
       case Toolbar.REFRESH: console.log('R', action, value);
