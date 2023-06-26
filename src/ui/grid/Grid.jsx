@@ -80,7 +80,7 @@ export default function Grid({
   name = '_grid',
   localData = true,
   model = [],
-  data: _data = [],
+  data = [],
   idName = 'id',
   classes = '',
   rowsPerPage = 20,
@@ -94,20 +94,24 @@ export default function Grid({
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
-  const [data, setData] = useState(_data);
+  const [currentData, setCurrentData] = useState(data);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
   }, []);
 
-  const searchableColumns = model.map(column => column.searchable);
   // toolbar handler
   const handleToolBarActions = (action, value) => {
     switch (action) {
       case Toolbar.SEARCH: console.log('S', action, value);
         if (localData) {
-          // TODO: Filter local data searching thru the searchable fields
-          setData(searchAndFilterLocalData(data, value, searchableColumns));
+          if (value === null || value.trim() === '') {
+            setCurrentData(data);
+            return;
+          }
+          const searchableColumns = model.filter(column => column.searchable)
+            .map(({ name }) => name);
+          setCurrentData(searchAndFilterLocalData(currentData, value, searchableColumns));
         }
         break;
       case Toolbar.REFRESH: console.log('R', action, value);
@@ -127,7 +131,7 @@ export default function Grid({
       <div className="d-flex p-0 w-100 bg-secondary overflow-auto">
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} />
-          <GridBody data={data} model={filteredModel} rowToolBar={rowToolBar} idName={idName} />
+          <GridBody data={currentData} model={filteredModel} rowToolBar={rowToolBar} idName={idName} />
         </table>
       </div>
       <div className='d-flex align-items-center'>

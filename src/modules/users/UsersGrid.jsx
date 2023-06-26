@@ -45,11 +45,13 @@ export default function UsersGrid() {
           }, {
             name: 'username',
             label: 'Username',
+            searchable: true,
             length: 200,
             classes: 'fw-semibold text-center',
           }, {
             name: 'roles',
             label: 'Roles',
+            searchable: true,
             length: 400
           }, {
             name: 'toolbar',

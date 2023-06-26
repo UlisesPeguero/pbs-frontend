@@ -38,7 +38,7 @@ export default function GridToolBar({
     <div className='w-100 d-flex gap-2'>
       {
         search &&
-        <SimpleInput name='gridSearch' classes='form-control-sm me-auto'  {...searchEvents} />
+        <SimpleInput name='gridSearch' type='search' classes='form-control-sm me-auto'  {...searchEvents} />
       }
 
       {buttons.length > 0 &&
