@@ -30,7 +30,7 @@ export default function UsersGrid() {
         id='usersGrid'
         toolbar={{
           containerId: 'usersGridToolbar',
-          search: { onEnter: true },
+          search: true,
           buttons: [
             'refresh',
             'filter'
