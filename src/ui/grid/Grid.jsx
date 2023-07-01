@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
 import ToolBar from '../ToolBar';
+import GridPaginator from './_GridPaginator';
 
 function GridHeader({ model }) {
   return (
@@ -83,7 +83,8 @@ export default function Grid({
   data = [],
   idName = 'id',
   classes = '',
-  rowsPerPage = 20,
+  pagination,
+  currentPage,
   height = '20vh',
   rowToolBar = {},
   labelRowsPerPageSelector,
@@ -134,24 +135,23 @@ export default function Grid({
           <GridBody data={currentData} model={filteredModel} rowToolBar={rowToolBar} idName={idName} />
         </table>
       </div>
-      <div className='d-flex align-items-center'>
-        <GridRowsPerPageSelector
-          gridName={name}
-          selectedValue={rowsPerPage}
-          label={labelRowsPerPageSelector}
-          options={optionsRowsPerPageSelector}
-          onChange={value => console.log(value)}
-        />
-        <nav aria-label="Page navigation example" className='ms-auto'>
-          <ul className="pagination mb-0">
-            <li className="page-item"><button className="page-link"><ArrowLeft /></button></li>
-            <li className="page-item"><button className="page-link">1</button></li>
-            <li className="page-item"><button className="page-link">2</button></li>
-            <li className="page-item"><button className="page-link">3</button></li>
-            <li className="page-item"><button className="page-link"><ArrowRight /></button></li>
-          </ul>
-        </nav>
-      </div>
+      {
+        pagination &&
+        <div className='d-flex align-items-center'>
+          <GridRowsPerPageSelector
+            gridName={name}
+            selectedValue={pagination?.rowsPerPage || 20}
+            label={pagination?.selector?.label}
+            options={pagination?.selector?.options}
+            onChange={pagination?.selector?.onChange}
+          />
+          <GridPaginator
+            pagesShown={pagination?.maxPagesShown}
+            currentPage={currentPage}
+            totalRows={data.length}
+          />
+        </div>
+      }
     </div>
   );
 }

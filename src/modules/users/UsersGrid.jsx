@@ -37,6 +37,15 @@ export default function UsersGrid() {
           ]
         }}
         classes='table-striped table-bordered table-hover'
+        // pagination
+        pagination={{
+          maxPagesShown: 5,
+          rowsPerPage: 10,
+          selector: {
+            onChange: value => console.log("Trigger rows per page changed")
+          }
+        }}
+        currentPage={1}
         model={[
           {
             name: 'id',
