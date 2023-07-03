@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolBar from '../../ui/ToolBar';
 import ContentHeader from '../../dashboard/content/ContentHeader';
-import Grid from '../../ui/Grid';
+import Grid from '../../ui/grid/Grid';
 import { useNavigate } from 'react-router-dom';
 
 export default function UsersGrid() {
@@ -24,17 +24,74 @@ export default function UsersGrid() {
               onClick: () => console.log('Other test something')
             }
           ]} />
-        <ToolBar align='right'
-          buttons={[
-            {
-              text: 'Other stuff',
-              message: 'Some other stuff..',
-              icon: 'Table',
-              onClick: () => console.log('Other something')
-            }
-          ]} />
+        <div id='usersGridToolbar' className='ms-auto'></div>
       </ContentHeader>
-      <Grid />
+      <Grid
+        id='usersGrid'
+        toolbar={{
+          containerId: 'usersGridToolbar',
+          search: true,
+          buttons: [
+            'refresh',
+            'filter'
+          ]
+        }}
+        classes='table-striped table-bordered table-hover'
+        // pagination
+        pagination={{
+          maxPagesShown: 5,
+          rowsPerPage: 10,
+          selector: {
+            onChange: value => console.log("Trigger rows per page changed")
+          }
+        }}
+        currentPage={1}
+        model={[
+          {
+            name: 'id',
+            label: 'ID',
+            hidden: true
+          }, {
+            name: 'username',
+            label: 'Username',
+            searchable: true,
+            length: 200,
+            classes: 'fw-semibold text-center',
+          }, {
+            name: 'roles',
+            label: 'Roles',
+            searchable: true,
+            length: 400
+          }, {
+            name: 'toolbar',
+          }
+        ]}
+        data={[
+          { id: 1, username: 'fox', roles: 'ADMIN' },
+          { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+        ]}
+        rowToolBar={[
+          {
+            icon: 'Trash',
+            size: 'sm',
+            classes: 'btn-danger',
+            onClick: (data) => console.log(`Delete row ID:${data.id}`)
+          }, {
+            icon: 'Pen',
+            size: 'sm',
+            onClick: (data) => console.log(`Open for edition row ID:${data.id}`)
+          }
+        ]}
+      />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolBar from '../../ui/ToolBar';
 import ContentHeader from '../../dashboard/content/ContentHeader';
-import Grid from '../../ui/Grid';
+import Grid from '../../ui/grid/Grid';
 import { useNavigate } from 'react-router-dom';
 
 export default function TestGrid() {

@@ -15,7 +15,6 @@ export default function BreadCrumbs() {
       setPath(currentPath);
       setLocations(matches.filter(match => match.pathname !== currentPath && match?.handle?.locationName));
     }
-
   }, [appLocation]);
 
   return (

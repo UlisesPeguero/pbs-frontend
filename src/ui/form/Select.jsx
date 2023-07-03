@@ -8,6 +8,7 @@ export default function Select({
   containerClasses = 'col-12',
   selectClasses = '',
   labelClasses = '',
+  onChange,
   ...rest
 }) {
   const [selectedValue, setSelectedValue] = useState(_selectedValue);
@@ -16,7 +17,10 @@ export default function Select({
   const _selectClass = 'form-select ' + selectClasses;
   const _labelClass = 'form-label ' + labelClasses;
 
-  const handleSelectedOption = ({ target }) => setSelectedValue(target.value);
+  const handleSelectedOption = ({ target }) => {
+    setSelectedValue(target.value);
+    if (typeof onChange === 'function') onChange(target.value);
+  };
   return (
     <div className={_containerClass}>
       {label && <label htmlFor={name} className={_labelClass}>{label}</label>}
@@ -30,10 +34,11 @@ export default function Select({
       >
         {
           options.map((option, index) => {
-            const id = option.id ? option.id : option.value;
+            const id = typeof option === 'object' ? (option?.id || option.value) : option;
+            const description = typeof option === 'object' ? (option?.description || id) : option;
             return (
               <option key={id} value={id}>
-                {option.description}
+                {description}
               </option>);
           })
         }

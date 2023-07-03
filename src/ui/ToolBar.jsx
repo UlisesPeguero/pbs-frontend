@@ -1,7 +1,12 @@
 import React from 'react';
 import Button from './Button';
 
-export default function ToolBar({ buttons, align, classes = '', gap, ...rest }) {
+export default function ToolBar({
+  buttons,
+  align,
+  classes = '',
+  gap,
+  ...rest }) {
   return (
     <div className={`hstack ${gap ? 'gap-' + gap : ''}  ${align === 'right' ? 'ms-auto' : ''} ${classes}`} {...rest}>
       {
@@ -16,6 +21,7 @@ export default function ToolBar({ buttons, align, classes = '', gap, ...rest }) 
               tooltip={button.message}
               onClick={button.onClick}
               type={button.type}
+              size={button.size}
               busy={button.busy}
             />;
         })
