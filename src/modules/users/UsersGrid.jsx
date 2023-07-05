@@ -39,14 +39,14 @@ export default function UsersGrid() {
         classes='table-striped table-bordered table-hover'
         // pagination
         pagination={{
-          maxPagesShown: 1, // besides prev, next, first and last
+          maxPagesShown: 3, // besides prev, next, first and last
           rowsPerPage: 5,
           selector: {
             onChange: value => console.log("Trigger rows per page changed"),
             options: [5, 10, 15, 20, 25, 30]
           }
         }}
-        currentPage={0}
+        currentPage={3}
         model={[
           {
             name: 'id',
