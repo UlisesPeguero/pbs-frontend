@@ -9,11 +9,13 @@ const TOOLBAR_BUTTONS = {
     id: '_refreshButton',
     classes: 'btn-sm btn-secondary',
     icon: 'ArrowClockwise',
+    message: 'Reload data',
   },
   filter: {
     id: '_filterButton',
     classes: 'btn-sm btn-secondary',
     icon: 'Filter',
+    message: 'Show all / Show only active',
   },
 };
 

@@ -39,13 +39,14 @@ export default function UsersGrid() {
         classes='table-striped table-bordered table-hover'
         // pagination
         pagination={{
-          maxPagesShown: 5,
-          rowsPerPage: 10,
+          maxPagesShown: 1, // besides prev, next, first and last
+          rowsPerPage: 5,
           selector: {
-            onChange: value => console.log("Trigger rows per page changed")
+            onChange: value => console.log("Trigger rows per page changed"),
+            options: [5, 10, 15, 20, 25, 30]
           }
         }}
-        currentPage={1}
+        currentPage={0}
         model={[
           {
             name: 'id',
@@ -69,25 +70,39 @@ export default function UsersGrid() {
         data={[
           { id: 1, username: 'fox', roles: 'ADMIN' },
           { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
-          { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises2', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero2', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises3', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero3', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises4', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero4', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises5', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero5', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 3, username: 'peguero6', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises6', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero7', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 3, username: 'peguero8', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises7', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero9', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 3, username: 'peguero10', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 2, username: 'ulises8', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero11', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
+          { id: 3, username: 'peguero12', roles: 'INVOICE.ADMIN, STAYS.ADMIN' }, { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
+          { id: 3, username: 'peguero13', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
         ]}
         rowToolBar={[
           {
             icon: 'Trash',
             size: 'sm',
-            classes: 'btn-danger',
+            style: null,
+            classes: 'btn-outline-danger',
             onClick: (data) => console.log(`Delete row ID:${data.id}`)
           }, {
             icon: 'Pen',
             size: 'sm',
+            style: null,
+            classes: 'btn-outline-primary',
             onClick: (data) => console.log(`Open for edition row ID:${data.id}`)
           }
         ]}

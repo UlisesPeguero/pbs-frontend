@@ -5,13 +5,15 @@ import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
 import ToolBar from '../ToolBar';
 import GridPaginator from './_GridPaginator';
 
+const DEFAULT_ROWS_PER_PAGE = 20;
+
 function GridHeader({ model }) {
   return (
     <thead>
       <tr>
         {
           model.map(column => {
-            const style = { ...column.style } || {};
+            const style = { ...column?.style } || {};
             if (column.length)
               style.width = column.length + (typeof column.length === 'number' ? 'px' : '');
             return (
@@ -31,7 +33,7 @@ function GridHeader({ model }) {
 }
 
 function RowToolBar({ data, rowToolBar }) {
-  const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data) }));
+  const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data), iconSize: 14 }));
   return <ToolBar gap={1} buttons={newToolBar} />;
 }
 
@@ -76,6 +78,11 @@ function searchAndFilterLocalData(data, searchValue, searchableColumns) {
   return [...data].filter(row => checkForValue(searchValue, row));
 }
 
+function getCurrentPageData(data, rowsPerPage, currentPage) {
+  let start = (currentPage - 1 < 0 ? 0 : currentPage - 1) * rowsPerPage;
+  return data.slice(start, (start) + rowsPerPage);
+}
+
 export default function Grid({
   name = '_grid',
   localData = true,
@@ -85,7 +92,7 @@ export default function Grid({
   classes = '',
   pagination,
   currentPage,
-  height = '20vh',
+  height = '40vh',
   rowToolBar = {},
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
@@ -95,6 +102,8 @@ export default function Grid({
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
+  const [currentActivePage, setCurrentActivePage] = useState(currentPage);
+  const [currentRowsPerPage, setCurrentRowsPerPage] = useState(pagination?.rowsPerPage || DEFAULT_ROWS_PER_PAGE);
   const [currentData, setCurrentData] = useState(data);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
@@ -123,16 +132,26 @@ export default function Grid({
     }
   };
 
+  const handleRowsPerPageChange = value => setCurrentRowsPerPage(value);
+  const handlePageChange = value => setCurrentActivePage(value);
+
   return (
     <div className='vstack gap-3' style={{ height }}>
       {
         domReady && toolbar?.containerId &&
         <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
       }
-      <div className="d-flex p-0 w-100 bg-secondary overflow-auto">
+      <div className="d-flex p-0 w-100 overflow-auto" style={{ backgroundColor: 'darkgray', }}>
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} />
-          <GridBody data={currentData} model={filteredModel} rowToolBar={rowToolBar} idName={idName} />
+          <GridBody
+            data={pagination
+              ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
+              : currentData}
+            model={filteredModel}
+            rowToolBar={rowToolBar}
+            idName={idName}
+          />
         </table>
       </div>
       {
@@ -140,15 +159,18 @@ export default function Grid({
         <div className='d-flex align-items-center'>
           <GridRowsPerPageSelector
             gridName={name}
-            selectedValue={pagination?.rowsPerPage || 20}
+            selectedValue={currentRowsPerPage}
             label={pagination?.selector?.label}
             options={pagination?.selector?.options}
-            onChange={pagination?.selector?.onChange}
+            customOnChangeHandler={pagination?.selector?.onChange}
+            onChange={handleRowsPerPageChange}
           />
           <GridPaginator
             pagesShown={pagination?.maxPagesShown}
-            currentPage={currentPage}
+            currentPage={currentActivePage}
             totalRows={data.length}
+            rowsPerPage={currentRowsPerPage}
+            onClick={handlePageChange}
           />
         </div>
       }
