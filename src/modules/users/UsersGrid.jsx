@@ -46,7 +46,7 @@ export default function UsersGrid() {
             options: [5, 10, 15, 20, 25, 30]
           }
         }}
-        currentPage={3}
+        currentPage={1}
         model={[
           {
             name: 'id',

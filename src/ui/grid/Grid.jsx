@@ -132,7 +132,10 @@ export default function Grid({
     }
   };
 
-  const handleRowsPerPageChange = value => setCurrentRowsPerPage(value);
+  const handleRowsPerPageChange = value => {
+    setCurrentActivePage(1);
+    setCurrentRowsPerPage(value);
+  };
   const handlePageChange = value => setCurrentActivePage(value);
 
   return (
