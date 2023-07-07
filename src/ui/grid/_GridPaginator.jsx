@@ -50,7 +50,6 @@ export default function GridPaginator({
     }
     pages.push(getPageItem(totalPages, () => onClick(totalPages), currentPage === totalPages));
   }
-  //console.log({ startShownPage, endShownPage, totalPages, totalPagesShown, currentPage });
 
   return (
     <nav aria-label="Page navigation example" className='ms-auto'>

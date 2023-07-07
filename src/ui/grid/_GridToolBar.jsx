@@ -33,7 +33,6 @@ export default function GridToolBar({
 
   const searchEvents = getSearchEvents(search, onToolBarAction);
 
-
   return createPortal(
     <div className='w-100 d-flex gap-2'>
       {
@@ -42,16 +41,18 @@ export default function GridToolBar({
       }
 
       {buttons.length > 0 &&
-        <ToolBar gap={2} buttons={
-          buttons.map(item => {
-            if (typeof item === 'string') {
-              const button = Buttons[item] || null;
-              button.onClick = () => onToolBarAction(item, item);
-              return button;
-            }
-            return null;
-          })
-        } />
+        <ToolBar
+          gap={1}
+          buttons={
+            buttons.map(item => {
+              if (typeof item === 'string') {
+                const button = Buttons[item] || null;
+                button.onClick = () => onToolBarAction(item, item);
+                return button;
+              }
+              return null;
+            })
+          } />
 
       }
     </div>,

@@ -3,6 +3,7 @@ import ToolBar from '../../ui/ToolBar';
 import ContentHeader from '../../dashboard/content/ContentHeader';
 import Grid from '../../ui/grid/Grid';
 import { useNavigate } from 'react-router-dom';
+import { TOOLBAR_ACTIONS as Toolbar } from '../../ui/grid/_GridToolBarActions';
 
 export default function UsersGrid() {
   const navigate = useNavigate();
@@ -32,8 +33,9 @@ export default function UsersGrid() {
           containerId: 'usersGridToolbar',
           search: true,
           buttons: [
-            'refresh',
-            'filter'
+            Toolbar.REFRESH,
+            Toolbar.FILTER,
+            Toolbar.PAGINATION
           ]
         }}
         classes='table-striped table-bordered table-hover'

@@ -83,6 +83,10 @@ function getCurrentPageData(data, rowsPerPage, currentPage) {
   return data.slice(start, (start) + rowsPerPage);
 }
 
+function filterOrShowAllData(data, filter, onTrue) {
+  return [...data];
+}
+
 export default function Grid({
   name = '_grid',
   localData = true,
@@ -96,7 +100,7 @@ export default function Grid({
   rowToolBar = {},
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
-  toolbar,
+  toolbar: _toolbar,
   ...rest
 }) {
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
@@ -105,15 +109,26 @@ export default function Grid({
   const [currentActivePage, setCurrentActivePage] = useState(currentPage);
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(pagination?.rowsPerPage || DEFAULT_ROWS_PER_PAGE);
   const [currentData, setCurrentData] = useState(data);
+  const [toolbar, setToolbar] = useState(_toolbar);
+  const [showPagination, setShowPagination] = useState(!!pagination);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
   }, []);
 
+  const toggleButton = (target, newButton) => {
+    let _toolbar = { ...toolbar };
+    let indexTarget = _toolbar?.buttons.indexOf(target);
+    console.log({ toolbar, target, newButton, indexTarget });
+    if (indexTarget !== -1) {
+      _toolbar.buttons[indexTarget] = newButton;
+      setToolbar(_toolbar);
+    }
+  };
   // toolbar handler
   const handleToolBarActions = (action, value) => {
     switch (action) {
-      case Toolbar.SEARCH: console.log('S', action, value);
+      case Toolbar.SEARCH:
         if (localData) {
           if (value === null || value.trim() === '') {
             setCurrentData(data);
@@ -124,9 +139,25 @@ export default function Grid({
           setCurrentData(searchAndFilterLocalData(currentData, value, searchableColumns));
         }
         break;
-      case Toolbar.REFRESH: console.log('R', action, value);
+      case Toolbar.REFRESH:
+        if (localData) {
+          setCurrentData(data);
+          return;
+        }
         break;
-      case Toolbar.FILTER: console.log('F', action, value);
+      case Toolbar.FILTER:
+        toggleButton(action, Toolbar.SHOW_ALL);
+        break;
+      case Toolbar.SHOW_ALL:
+        toggleButton(action, Toolbar.FILTER);
+        break;
+      case Toolbar.PAGINATION:
+        toggleButton(action, Toolbar.TABLE);
+        setShowPagination(true);
+        break;
+      case Toolbar.TABLE:
+        toggleButton(action, Toolbar.PAGINATION);
+        setShowPagination(false);
         break;
       default: //
     }
@@ -138,6 +169,9 @@ export default function Grid({
   };
   const handlePageChange = value => setCurrentActivePage(value);
 
+  if (showPagination && toolbar.buttons.includes(Toolbar.PAGINATION))
+    toggleButton(Toolbar.PAGINATION, Toolbar.TABLE);
+
   return (
     <div className='vstack gap-3' style={{ height }}>
       {
@@ -148,7 +182,7 @@ export default function Grid({
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} />
           <GridBody
-            data={pagination
+            data={showPagination
               ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
               : currentData}
             model={filteredModel}
@@ -158,7 +192,7 @@ export default function Grid({
         </table>
       </div>
       {
-        pagination &&
+        showPagination &&
         <div className='d-flex align-items-center'>
           <GridRowsPerPageSelector
             gridName={name}
