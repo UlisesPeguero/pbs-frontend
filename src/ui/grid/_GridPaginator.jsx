@@ -24,7 +24,6 @@ export default function GridPaginator({
   else if (currentPage > totalPages) currentPage = totalPages;
   const handleClickGoto = () => true;
   const handleClickNavigation = value => onClick(currentPage + value);
-  let totalPagesShown = pagesShown;
   const leftSidePages = Math.ceil(pagesShown / 2) - 1;
   const rightSidePages = Math.floor(pagesShown / 2);
   let pages = [getPageItem(1, () => onClick(1), currentPage === 1)];
@@ -43,7 +42,6 @@ export default function GridPaginator({
       pages.push(getPageItem("...", handleClickGoto, null, '1_'));
     }
     else if (startShownPage <= 1) startShownPage = 2;
-    console.log({ currentPage, leftSidePages, rightSidePages, startShownPage, endShownPage, pagesShown });
     for (let i = startShownPage; i <= endShownPage; i++) {
       pages.push(getPageItem(i, () => onClick(i), currentPage === i));
     }

@@ -56,10 +56,11 @@ function searchAndFilterLocalData(data, searchValue, searchableColumns) {
 
 function getCurrentPageData(data, rowsPerPage, currentPage) {
   let start = (currentPage - 1 < 0 ? 0 : currentPage - 1) * rowsPerPage;
-  return data.slice(start, (start) + rowsPerPage);
+  return [...data].slice(start, (start) + rowsPerPage);
 }
 
 function filterOrShowAllData(data, filter, onTrue) {
+  //TODO: add local filter 
   return [...data];
 }
 
@@ -140,7 +141,7 @@ export default function Grid({
   };
 
   const handleRowsPerPageChange = value => {
-    setCurrentRowsPerPage(value);
+    setCurrentRowsPerPage(Number(value));
     setCurrentActivePage(1);
 
   };
