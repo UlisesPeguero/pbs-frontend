@@ -4,33 +4,9 @@ import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
 import ToolBar from '../ToolBar';
 import GridPaginator from './_GridPaginator';
+import GridHeader from './_GridHeader';
 
 const DEFAULT_ROWS_PER_PAGE = 20;
-
-function GridHeader({ model }) {
-  return (
-    <thead>
-      <tr>
-        {
-          model.map(column => {
-            const style = { ...column?.style } || {};
-            if (column.length)
-              style.width = column.length + (typeof column.length === 'number' ? 'px' : '');
-            return (
-              <th
-                key={column.name}
-                className='text-center'
-                style={style}
-              >
-                {column.label}
-              </th>);
-          }
-          )
-        }
-      </tr>
-    </thead>
-  );
-}
 
 function RowToolBar({ data, rowToolBar }) {
   const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data), iconSize: 14 }));
@@ -164,13 +140,19 @@ export default function Grid({
   };
 
   const handleRowsPerPageChange = value => {
-    setCurrentActivePage(1);
     setCurrentRowsPerPage(value);
+    setCurrentActivePage(1);
+
   };
+
   const handlePageChange = value => setCurrentActivePage(value);
 
   if (showPagination && toolbar.buttons.includes(Toolbar.PAGINATION))
     toggleButton(Toolbar.PAGINATION, Toolbar.TABLE);
+
+  const handleOnSort = (name, state, sortFunction) => {
+    console.log({ name, state, sortFunction });
+  };
 
   return (
     <div className='vstack gap-3' style={{ height }}>
@@ -180,7 +162,7 @@ export default function Grid({
       }
       <div className="d-flex p-0 w-100 overflow-auto" style={{ backgroundColor: 'darkgray', }}>
         <table className={_tableClass} {...rest}>
-          <GridHeader model={filteredModel} />
+          <GridHeader model={filteredModel} onSort={handleOnSort} />
           <GridBody
             data={showPagination
               ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
