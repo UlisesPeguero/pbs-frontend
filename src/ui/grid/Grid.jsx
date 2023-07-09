@@ -96,7 +96,6 @@ export default function Grid({
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };
     let indexTarget = _toolbar?.buttons.indexOf(target);
-    console.log({ toolbar, target, newButton, indexTarget });
     if (indexTarget !== -1) {
       _toolbar.buttons[indexTarget] = newButton;
       setToolbar(_toolbar);
@@ -151,7 +150,7 @@ export default function Grid({
   if (showPagination && toolbar.buttons.includes(Toolbar.PAGINATION))
     toggleButton(Toolbar.PAGINATION, Toolbar.TABLE);
 
-  const handleOnSort = (name, state, sortFunction) => {
+  const handleOnSort = ({ name, type, sortFunction }, state) => {
     console.log({ name, state, sortFunction });
   };
 

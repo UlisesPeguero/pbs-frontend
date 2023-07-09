@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useDeferredValue, useEffect, useState } from 'react';
 import { Icon } from '../Icon';
 
 function GridHeaderCell({
@@ -8,12 +8,12 @@ function GridHeaderCell({
   style = {},
   label,
   sortable,
+  sortingState,
   searchable,
   length,
   onSort,
   ...rest }
 ) {
-  const [sortingState, setSortingState] = useState(null); // true:up, false:down, null:unsorted
   if (length)
     style.width = length + (typeof length === 'number' ? 'px' : '');
 
@@ -21,8 +21,7 @@ function GridHeaderCell({
   let sortingIcon = null;
   if (sortable) {
     handleSortClick = () => {
-      onSort(name, type, !sortingState, sortable);
-      setSortingState(!sortingState);
+      onSort({ name, type, sortFunction: sortable });
     };
     sortingIcon = sortingState === null
       ? 'ChevronExpand'
@@ -49,8 +48,21 @@ function GridHeaderCell({
   );
 }
 
-export default function GridHeader({ model, onSort }) {
+export default function GridHeader({ model, onSort, sorting = { column: {}, state: null } }) {
+  const [sortedColumn, setSortedColumn] = useState(sorting?.column);
+  const [sortingState, setSortingState] = useState(sorting?.state);
 
+  useEffect(() => {
+    onSort(sortedColumn, sortingState);
+  }, [sortedColumn, sortingState]);
+  const handleSortingState = (column) => {
+    if (column.name === sortedColumn?.name) {
+      setSortingState(state => !state);
+    } else {
+      setSortedColumn(column);
+      setSortingState(true);
+    }
+  };
   return (
     <thead>
       <tr>
@@ -58,7 +70,8 @@ export default function GridHeader({ model, onSort }) {
           model.map(column =>
             <GridHeaderCell
               key={column.name}
-              onSort={onSort}
+              sortingState={column.name === sortedColumn.name ? sortingState : null}
+              onSort={handleSortingState}
               {...column}
             />
           )
