@@ -10,7 +10,7 @@ const DEFAULT_ROWS_PER_PAGE = 20;
 
 function RowToolBar({ data, rowToolBar }) {
   const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data), iconSize: 14 }));
-  return <ToolBar gap={1} buttons={newToolBar} />;
+  return <ToolBar gap={ 1 } buttons={ newToolBar } />;
 }
 
 function DataRow({ model, data, rowToolBar }) {
@@ -20,10 +20,10 @@ function DataRow({ model, data, rowToolBar }) {
         model.map(({ name, classes = '' }) => {
 
           return (
-            <td key={name} className={classes}>
+            <td key={ name } className={ classes }>
               {
                 (rowToolBar && name === 'toolbar')
-                  ? <RowToolBar data={data} rowToolBar={rowToolBar} />
+                  ? <RowToolBar data={ data } rowToolBar={ rowToolBar } />
                   : data[name]
               }
             </td>);
@@ -38,7 +38,7 @@ function GridBody({ model, data, rowToolBar, idName }) {
   return (
     <tbody>
       {
-        data.map((row, index) => <DataRow key={row[idName] + '_' + index || `row-${index}`} rowToolBar={rowToolBar} model={model} data={row} />)
+        data.map((row, index) => <DataRow key={ row[idName] + '_' + index || `row-${index}` } rowToolBar={ rowToolBar } model={ model } data={ row } />)
       }
     </tbody>
   );
@@ -151,25 +151,40 @@ export default function Grid({
     toggleButton(Toolbar.PAGINATION, Toolbar.TABLE);
 
   const handleOnSort = ({ name, type, sortFunction }, state) => {
-    console.log({ name, state, sortFunction });
+    let sortedData = [...currentData];
+    if (typeof sortFunction !== 'function') {
+      switch (type) {
+        case 'number':
+          sortFunction = (a, b) => {
+            return (!state ? -1 : 1) * (a[name] - b[name]);
+          };
+          break;
+        case 'string':
+        default:
+          sortFunction = (a, b) => {
+            return (!state ? -1 : 1) * String(a[name]).localeCompare(b[name]);
+          };
+      }
+    }
+    setCurrentData(sortedData.sort(sortFunction));
   };
 
   return (
-    <div className='vstack gap-3' style={{ height }}>
+    <div className='vstack gap-3' style={ { height } }>
       {
         domReady && toolbar?.containerId &&
-        <GridToolBar {...toolbar} onToolBarAction={handleToolBarActions} />
+        <GridToolBar { ...toolbar } onToolBarAction={ handleToolBarActions } />
       }
-      <div className="d-flex p-0 w-100 overflow-auto" style={{ backgroundColor: 'darkgray', }}>
-        <table className={_tableClass} {...rest}>
-          <GridHeader model={filteredModel} onSort={handleOnSort} />
+      <div className="d-flex p-0 w-100 overflow-auto" style={ { backgroundColor: 'darkgray', } }>
+        <table className={ _tableClass } { ...rest }>
+          <GridHeader model={ filteredModel } onSort={ handleOnSort } />
           <GridBody
-            data={showPagination
+            data={ showPagination
               ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
-              : currentData}
-            model={filteredModel}
-            rowToolBar={rowToolBar}
-            idName={idName}
+              : currentData }
+            model={ filteredModel }
+            rowToolBar={ rowToolBar }
+            idName={ idName }
           />
         </table>
       </div>
@@ -177,19 +192,19 @@ export default function Grid({
         showPagination &&
         <div className='d-flex align-items-center'>
           <GridRowsPerPageSelector
-            gridName={name}
-            selectedValue={currentRowsPerPage}
-            label={pagination?.selector?.label}
-            options={pagination?.selector?.options}
-            customOnChangeHandler={pagination?.selector?.onChange}
-            onChange={handleRowsPerPageChange}
+            gridName={ name }
+            selectedValue={ currentRowsPerPage }
+            label={ pagination?.selector?.label }
+            options={ pagination?.selector?.options }
+            customOnChangeHandler={ pagination?.selector?.onChange }
+            onChange={ handleRowsPerPageChange }
           />
           <GridPaginator
-            pagesShown={pagination?.maxPagesShown}
-            currentPage={currentActivePage}
-            totalRows={data.length}
-            rowsPerPage={currentRowsPerPage}
-            onClick={handlePageChange}
+            pagesShown={ pagination?.maxPagesShown }
+            currentPage={ currentActivePage }
+            totalRows={ data.length }
+            rowsPerPage={ currentRowsPerPage }
+            onClick={ handlePageChange }
           />
         </div>
       }

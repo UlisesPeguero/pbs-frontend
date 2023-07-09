@@ -12,8 +12,8 @@ export default function UsersGrid() {
     <>
       <ContentHeader title='Test grid'>
         <ToolBar
-          gap={2}
-          buttons={[
+          gap={ 2 }
+          buttons={ [
             {
               text: 'Add Test',
               message: 'Add some test.',
@@ -24,12 +24,12 @@ export default function UsersGrid() {
               icon: 'Table',
               onClick: () => console.log('Other test something')
             }
-          ]} />
+          ] } />
         <div id='usersGridToolbar' className='ms-auto'></div>
       </ContentHeader>
       <Grid
         id='usersGrid'
-        toolbar={{
+        toolbar={ {
           containerId: 'usersGridToolbar',
           search: true,
           buttons: [
@@ -37,23 +37,24 @@ export default function UsersGrid() {
             Toolbar.FILTER,
             Toolbar.PAGINATION
           ]
-        }}
+        } }
         classes='table-striped table-bordered table-hover'
         // pagination
-        pagination={{
+        pagination={ {
           maxPagesShown: 3, // besides prev, next, first and last
           rowsPerPage: 5,
           selector: {
             onChange: value => console.log("Trigger rows per page changed"),
             options: [5, 10, 15, 20, 25, 30]
           }
-        }}
-        currentPage={1}
-        model={[
+        } }
+        currentPage={ 1 }
+        model={ [
           {
             name: 'id',
             label: 'ID',
-            type: 'number'
+            type: 'number',
+            sortable: true
           }, {
             name: 'username',
             label: 'Username',
@@ -70,8 +71,8 @@ export default function UsersGrid() {
           }, {
             name: 'toolbar',
           }
-        ]}
-        data={[
+        ] }
+        data={ [
           { id: 1, username: 'fox', roles: 'ADMIN' },
           { id: 2, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 3, username: 'peguero', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
@@ -104,8 +105,8 @@ export default function UsersGrid() {
           { id: 21, username: 'peguero12', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
           { id: 22, username: 'ulises', roles: 'EMPLOYEES.ADMIN' },
           { id: 23, username: 'peguero13', roles: 'INVOICE.ADMIN, STAYS.ADMIN' },
-        ]}
-        rowToolBar={[
+        ] }
+        rowToolBar={ [
           {
             icon: 'Trash',
             size: 'sm',
@@ -119,7 +120,7 @@ export default function UsersGrid() {
             classes: 'btn-outline-primary',
             onClick: (data) => console.log(`Open for edition row ID:${data.id}`)
           }
-        ]}
+        ] }
       />
     </>
   );
