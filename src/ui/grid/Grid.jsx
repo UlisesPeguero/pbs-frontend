@@ -59,9 +59,11 @@ function getCurrentPageData(data, rowsPerPage, currentPage) {
   return [...data].slice(start, (start) + rowsPerPage);
 }
 
-function filterOrShowAllData(data, filter, onTrue) {
-  //TODO: add local filter 
-  return [...data];
+function filterAllData(data, onFilter) {
+  return [...data].filter(row => {
+    onFilter = typeof onFilter === 'function' ? onFilter : row => row?.active;
+    return onFilter(row);
+  });
 }
 
 export default function Grid({
@@ -122,10 +124,20 @@ export default function Grid({
         }
         break;
       case Toolbar.FILTER:
+        const allButton = Toolbar.SHOW_ALL;
+        // const allButton = typeof value === 'function' ? { name: Toolbar.SHOW_ALL, filter: value } : Toolbar.SHOW_ALL;
         toggleButton(action, Toolbar.SHOW_ALL);
+        if (localData) {
+          setCurrentData(filterAllData(data, value));
+        }
         break;
       case Toolbar.SHOW_ALL:
+        const filterButton = Toolbar.FILTER;
+        // const filterButton = typeof value === 'function' ? { name: Toolbar.FILTER, filter: value } : Toolbar.FILTER;
         toggleButton(action, Toolbar.FILTER);
+        if (localData) {
+          setCurrentData(data);
+        }
         break;
       case Toolbar.PAGINATION:
         toggleButton(action, Toolbar.TABLE);

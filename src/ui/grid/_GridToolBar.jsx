@@ -45,12 +45,13 @@ export default function GridToolBar({
           gap={1}
           buttons={
             buttons.map(item => {
-              if (typeof item === 'string') {
-                const button = Buttons[item] || null;
-                button.onClick = () => onToolBarAction(item, item);
+              let itemName = (typeof item === 'string') ? item : item?.name;
+              if (Object.hasOwn(Buttons, itemName)) {
+                const button = Buttons[itemName] || null;
+                button.onClick = () => onToolBarAction(itemName, (typeof item === 'object') ? item?.filter : null);
                 return button;
               }
-              return null;
+              return item;
             })
           } />
 

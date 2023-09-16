@@ -49,7 +49,7 @@ export default function Layout() {
         />
         <div className='d-flex flex-column w-100'>
           <BreadCrumbs />
-          <main className='content pt-1 px-4 col-md-12 col-lg-10 col-xl-8 col-xxl-6' style={{ overflow: 'hidden' }}>
+          <main className='content pt-1 px-4  col-lg-12 col-xl-10 col-xxl-8' style={{ overflow: 'hidden' }}>
             <Outlet />
           </main>
         </div>
