@@ -35,11 +35,11 @@ export default function UsersGrid() {
           buttons: [
 
             Toolbar.REFRESH,
-            Toolbar.FILTER,
-            // {
-            //   name: Toolbar.FILTER,
-            //   filter: row => row.username.includes('ulises')
-            // },
+            // Toolbar.FILTER,
+            {
+              name: Toolbar.FILTER,
+              filter: row => row.username.includes('ulises')
+            },
             Toolbar.PAGINATION
           ]
         }}

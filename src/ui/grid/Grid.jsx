@@ -97,7 +97,8 @@ export default function Grid({
 
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };
-    let indexTarget = _toolbar?.buttons.indexOf(target);
+    let indexTarget = _toolbar?.buttons
+      .findIndex(button => typeof button === 'string' ? button === target : button?.name === target) || -1;
     if (indexTarget !== -1) {
       _toolbar.buttons[indexTarget] = newButton;
       setToolbar(_toolbar);
@@ -105,6 +106,7 @@ export default function Grid({
   };
   // toolbar handler
   const handleToolBarActions = (action, value) => {
+    console.log('Action: ', action, value);
     switch (action) {
       case Toolbar.SEARCH:
         if (localData) {
@@ -124,17 +126,17 @@ export default function Grid({
         }
         break;
       case Toolbar.FILTER:
-        const allButton = Toolbar.SHOW_ALL;
-        // const allButton = typeof value === 'function' ? { name: Toolbar.SHOW_ALL, filter: value } : Toolbar.SHOW_ALL;
-        toggleButton(action, Toolbar.SHOW_ALL);
+        // const allButton = Toolbar.SHOW_ALL;
+        const allButton = typeof value === 'function' ? { name: Toolbar.SHOW_ALL, filter: value } : Toolbar.SHOW_ALL;
+        toggleButton(action, allButton);
         if (localData) {
           setCurrentData(filterAllData(data, value));
         }
         break;
       case Toolbar.SHOW_ALL:
-        const filterButton = Toolbar.FILTER;
-        // const filterButton = typeof value === 'function' ? { name: Toolbar.FILTER, filter: value } : Toolbar.FILTER;
-        toggleButton(action, Toolbar.FILTER);
+        // const filterButton = Toolbar.FILTER;
+        const filterButton = typeof value === 'function' ? { name: Toolbar.FILTER, filter: value } : Toolbar.FILTER;
+        toggleButton(action, filterButton);
         if (localData) {
           setCurrentData(data);
         }
