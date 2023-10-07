@@ -31,6 +31,13 @@ export default function Layout() {
         icon: 'PeopleFill',
         active: false,
       },
+      {
+        id: 4,
+        name: 'Settings',
+        path: '/settings',
+        icon: 'Gear',
+        active: false,
+      },
     ];
     setModules(state => listModules);
 

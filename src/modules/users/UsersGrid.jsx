@@ -10,18 +10,19 @@ export default function UsersGrid() {
   const handleAddClick = () => navigate('./add');
   return (
     <>
-      <ContentHeader title='Test grid'>
+      <ContentHeader title='Users'>
         <ToolBar
           gap={2}
           buttons={[
             {
-              text: 'Add Test',
-              message: 'Add some test.',
-              icon: 'PlusSquare',
+              text: 'New',
+              message: 'Add a new User.',
+              icon: 'Plus',
               onClick: handleAddClick
             }, {
-              message: 'Some other test stuff..',
-              icon: 'Table',
+              text: 'Roles and Privileges',
+              message: 'View Roles and Privileges.',
+              // icon: 'Table',
               onClick: () => console.log('Other test something')
             }
           ]} />
@@ -35,11 +36,7 @@ export default function UsersGrid() {
           buttons: [
 
             Toolbar.REFRESH,
-            // Toolbar.FILTER,
-            {
-              name: Toolbar.FILTER,
-              filter: row => row.username.includes('ulises')
-            },
+            Toolbar.FILTER,
             Toolbar.PAGINATION
           ]
         }}
