@@ -1,11 +1,11 @@
 import React from 'react';
 import { Icon } from './Icon';
 
-function ButtonContent({ icon, text, busy, spinnerClass }) {
+function ButtonContent({ icon, iconSize, text, busy, spinnerClass }) {
   return (
     <>
       {
-        (icon && !busy) && <Icon iconName={icon} size={22} />
+        (icon && !busy) && <Icon iconName={icon} size={iconSize || 20} />
       }
       {
         busy && <span className={spinnerClass}></span>
@@ -20,6 +20,8 @@ export default function Button({
   id,
   text,
   icon,
+  iconSize,
+  style,
   children,
   type = 'button',
   onClick,
@@ -32,13 +34,14 @@ export default function Button({
   ...rest
 }) {
   // TODO: Testing styles
-  const style = {
-    outline: 'none',
-    borderWidth: '0',
-    borderRadius: '2px',
-    boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
+  if (typeof style === 'undefined')
+    style = {
+      outline: 'none',
+      borderWidth: '0',
+      borderRadius: '2px',
+      boxShadow: '0 1px 4px rgba(0, 0, 0, .6)',
 
-  };
+    };
   return (
     <button
       id={id || 'btn' + (text ? text.replace(' ', '') : icon)}
@@ -52,7 +55,7 @@ export default function Button({
     >
       {
         (text || icon)
-          ? <ButtonContent{...{ icon, text, busy, spinnerClass }} />
+          ? <ButtonContent{...{ icon, iconSize, text, busy, spinnerClass }} />
           : children
       }
     </button>

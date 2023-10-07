@@ -17,6 +17,8 @@ export default function ToolBar({
               key={button.id || 'btn' + index}
               text={button.text}
               icon={button.icon}
+              style={button.style}
+              iconSize={button.iconSize}
               classes={button.classes}
               tooltip={button.message}
               onClick={button.onClick}
