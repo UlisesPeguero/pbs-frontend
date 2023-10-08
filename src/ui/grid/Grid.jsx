@@ -80,6 +80,7 @@ export default function Grid({
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
   toolbar: _toolbar,
+  api,
   ...rest
 }) {
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
