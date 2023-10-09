@@ -81,9 +81,12 @@ export default function Grid({
   optionsRowsPerPageSelector,
   toolbar: _toolbar,
   api,
+  endpoint,
   ...rest
 }) {
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
+  api = api === undefined && endpoint ? { endpoint } : api;
+  if (api) localData = false;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
   const [currentActivePage, setCurrentActivePage] = useState(currentPage);
@@ -91,6 +94,7 @@ export default function Grid({
   const [currentData, setCurrentData] = useState(data);
   const [toolbar, setToolbar] = useState(_toolbar);
   const [showPagination, setShowPagination] = useState(!!pagination);
+  const [apiData, setApiData] = useState(api);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
