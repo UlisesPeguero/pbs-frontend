@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
@@ -98,7 +99,11 @@ export default function Grid({
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
-  }, []);
+    if (!localData) {
+      const remoteData = axios.get(apiData.endpoint);
+      console.log(remoteData);
+    }
+  }, [apiData]);
 
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };

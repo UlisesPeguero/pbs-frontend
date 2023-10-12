@@ -30,6 +30,7 @@ export default function UsersGrid() {
       </ContentHeader>
       <Grid
         id='usersGrid'
+        endpoint={'http://localhost:8088/api/users'}
         toolbar={{
           containerId: 'usersGridToolbar',
           search: true,
