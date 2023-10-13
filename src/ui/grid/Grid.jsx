@@ -201,14 +201,17 @@ export default function Grid({
       <div className="d-flex p-0 w-100 overflow-auto" style={{ backgroundColor: 'darkgray', }}>
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} onSort={handleOnSort} />
-          <GridBody
-            data={showPagination
-              ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
-              : currentData}
-            model={filteredModel}
-            rowToolBar={rowToolBar}
-            idName={idName}
-          />
+          {
+            currentData.length > 0 &&
+            <GridBody
+              data={showPagination
+                ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
+                : currentData}
+              model={filteredModel}
+              rowToolBar={rowToolBar}
+              idName={idName}
+            />
+          }
         </table>
       </div>
       {
@@ -222,6 +225,9 @@ export default function Grid({
             customOnChangeHandler={pagination?.selector?.onChange}
             onChange={handleRowsPerPageChange}
           />
+          <div className='ms-3'>
+            <strong>{new Intl.NumberFormat().format(currentData.length)}</strong> Records
+          </div>
           <GridPaginator
             pagesShown={pagination?.maxPagesShown}
             currentPage={currentActivePage}

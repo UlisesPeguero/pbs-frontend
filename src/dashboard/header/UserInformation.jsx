@@ -1,7 +1,9 @@
 import React from 'react';
 import { PersonCircle, BoxArrowRight } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserInformation(props) {
+  const navigate = useNavigate();
   const { name, profilePicture } = props.user || { name: 'Place Holder', profilePicture: null };
   return (
     <div className='d-flex align-items-center justify-content-end'>
@@ -15,6 +17,7 @@ export default function UserInformation(props) {
         }
         <button className='btn dropdown-toggle dropdown-toggle-split' type='button' data-bs-toggle='dropdown' aria-expanded='false'></button>
         <ul className="dropdown-menu position-fixed">
+          <li><a className='dropdown-item' onClick={() => navigate('./auth/login')} role='button'>Login</a></li>
           <li><a className="dropdown-item" href='#' role='button'>Profile</a></li>
           <li><hr className="dropdown-divider" /></li>
           <li><a className="dropdown-item" href='#' role='button'>
