@@ -67,6 +67,16 @@ function filterAllData(data, onFilter) {
   });
 }
 
+async function getRemoteData(endpoint) {
+  let response;
+  try {
+    response = await axios.get(endpoint);
+  } catch (ex) {
+    console.log(ex);
+  }
+  return response || [];
+}
+
 export default function Grid({
   name = '_grid',
   localData = true,
@@ -100,8 +110,8 @@ export default function Grid({
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
     if (!localData) {
-      const remoteData = axios.get(apiData.endpoint);
-      console.log(remoteData);
+      const response = getRemoteData(apiData.endpoint);
+      console.log('GET data', response);
     }
   }, [apiData]);
 
