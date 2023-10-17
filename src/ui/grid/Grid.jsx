@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import Axios from '../../common/AxiosWithCredentials';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
@@ -70,7 +70,7 @@ function filterAllData(data, onFilter) {
 async function getRemoteData(endpoint) {
   let response;
   try {
-    response = await axios.get(endpoint);
+    response = await Axios.get(endpoint);
   } catch (ex) {
     console.log(ex);
   }
