@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Axios from '../../common/AxiosWithCredentials';
 import GridRowsPerPageSelector from './_GridRowsPerPageSelector';
 import GridToolBar from './_GridToolBar';
 import { TOOLBAR_ACTIONS as Toolbar } from './_GridToolBarActions';
@@ -66,6 +67,16 @@ function filterAllData(data, onFilter) {
   });
 }
 
+async function getRemoteData(endpoint) {
+  let response;
+  try {
+    response = await Axios.get(endpoint);
+  } catch (ex) {
+    console.log(ex);
+  }
+  return response || [];
+}
+
 export default function Grid({
   name = '_grid',
   localData = true,
@@ -80,9 +91,13 @@ export default function Grid({
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
   toolbar: _toolbar,
+  api,
+  endpoint,
   ...rest
 }) {
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
+  api = api === undefined && endpoint ? { endpoint } : api;
+  if (api) localData = false;
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
   const [currentActivePage, setCurrentActivePage] = useState(currentPage);
@@ -90,10 +105,15 @@ export default function Grid({
   const [currentData, setCurrentData] = useState(data);
   const [toolbar, setToolbar] = useState(_toolbar);
   const [showPagination, setShowPagination] = useState(!!pagination);
+  const [apiData, setApiData] = useState(api);
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
-  }, []);
+    if (!localData) {
+      const response = getRemoteData(apiData.endpoint);
+      console.log('GET data', response);
+    }
+  }, [apiData]);
 
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };
@@ -191,14 +211,17 @@ export default function Grid({
       <div className="d-flex p-0 w-100 overflow-auto" style={{ backgroundColor: 'darkgray', }}>
         <table className={_tableClass} {...rest}>
           <GridHeader model={filteredModel} onSort={handleOnSort} />
-          <GridBody
-            data={showPagination
-              ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
-              : currentData}
-            model={filteredModel}
-            rowToolBar={rowToolBar}
-            idName={idName}
-          />
+          {
+            currentData.length > 0 &&
+            <GridBody
+              data={showPagination
+                ? getCurrentPageData(currentData, currentRowsPerPage, currentActivePage)
+                : currentData}
+              model={filteredModel}
+              rowToolBar={rowToolBar}
+              idName={idName}
+            />
+          }
         </table>
       </div>
       {
@@ -212,6 +235,9 @@ export default function Grid({
             customOnChangeHandler={pagination?.selector?.onChange}
             onChange={handleRowsPerPageChange}
           />
+          <div className='ms-3'>
+            <strong>{new Intl.NumberFormat().format(currentData.length)}</strong> Records
+          </div>
           <GridPaginator
             pagesShown={pagination?.maxPagesShown}
             currentPage={currentActivePage}

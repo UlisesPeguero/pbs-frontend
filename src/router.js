@@ -5,8 +5,13 @@ import UsersGrid from './modules/users/UsersGrid';
 import Users from './modules/users/Users';
 import MainContainer from './dashboard/MainContent';
 import NotFoundPage from './pages/NotFoundPage';
+import LoginPage from './pages/LoginPage';
 
 export default createBrowserRouter([
+  {
+    path: '/auth/login',
+    element: <LoginPage />,
+  },
   {
     path: '/',
     element: <Layout />,
