@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-//import Axios from '../common/AxiosWithCredentials';
-import axios from 'axios';
+import Axios from '../common/AxiosWithCredentials';
 
 export default function LoginPage() {
 
   const signinTest = async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:8088/api/auth/signin',
+      const response = await Axios.post(
+        '/auth/signin',
         {
           "username": "admin",
           "password": "admin"
-        }, {
-        withCredentials: true
-      });
+        });
       console.log(response.data);
     } catch (ex) {
       console.log(ex);

@@ -8,10 +8,19 @@ import GridPaginator from './_GridPaginator';
 import GridHeader from './_GridHeader';
 
 const DEFAULT_ROWS_PER_PAGE = 20;
+const LOAD_ONCE = 1;
+const REMOTE_REFRESH = 2;
+const REMOTE = 3;
+const GRID_PATH = '/grid';
+const SEARCH_PATH = '/search';
 
 function RowToolBar({ data, rowToolBar }) {
   const newToolBar = rowToolBar.map(({ onClick, ...rest }) => ({ ...rest, onClick: () => onClick(data), iconSize: 14 }));
   return <ToolBar gap={1} buttons={newToolBar} />;
+}
+
+function getDataByName(name, dataRow) {
+  return dataRow[name];
 }
 
 function DataRow({ model, data, rowToolBar }) {
@@ -25,7 +34,7 @@ function DataRow({ model, data, rowToolBar }) {
               {
                 (rowToolBar && name === 'toolbar')
                   ? <RowToolBar data={data} rowToolBar={rowToolBar} />
-                  : data[name]
+                  : getDataByName(name, data)
               }
             </td>);
         })
@@ -67,14 +76,14 @@ function filterAllData(data, onFilter) {
   });
 }
 
-async function getRemoteData(endpoint) {
+async function getRemoteData(api, activePage, rowsPerPage) {
   let response;
   try {
-    response = await Axios.get(endpoint);
+    response = await Axios.get(api.mode === REMOTE ? api.endpoint + GRID_PATH : api.endpoint);
   } catch (ex) {
     console.log(ex);
   }
-  return response || [];
+  return response.data || [];
 }
 
 export default function Grid({
@@ -91,13 +100,29 @@ export default function Grid({
   labelRowsPerPageSelector,
   optionsRowsPerPageSelector,
   toolbar: _toolbar,
-  api,
-  endpoint,
+  api,      // api configuration
+  endpoint, // api endpoint to use, rest of configuration is default +/grid, +/search
+  url,      // load once url
   ...rest
 }) {
   const _tableClass = 'table w-auto bg-white shadow ' + classes;
-  api = api === undefined && endpoint ? { endpoint } : api;
-  if (api) localData = false;
+  if (!api) {
+    if (endpoint) {
+      api = {
+        endpoint,
+        mode: REMOTE,
+        localData: false
+      };
+    } else if (url) {
+      api = {
+        endpoint: url,
+        mode: LOAD_ONCE,
+        localData: false
+      };
+    } else {
+      api = { localData };
+    }
+  }
   const filteredModel = model.filter(col => !col.hidden);
   const [domReady, setDomReady] = useState(false);
   const [currentActivePage, setCurrentActivePage] = useState(currentPage);
@@ -109,9 +134,9 @@ export default function Grid({
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
-    if (!localData) {
-      const response = getRemoteData(apiData.endpoint);
-      console.log('GET data', response);
+    if (!api.localData) {
+      const response = getRemoteData(apiData, currentActivePage, currentRowsPerPage);
+      response.then(data => setCurrentData(data));
     }
   }, [apiData]);
 
@@ -129,7 +154,7 @@ export default function Grid({
     console.log('Action: ', action, value);
     switch (action) {
       case Toolbar.SEARCH:
-        if (localData) {
+        if (api.localData) {
           if (value === null || value.trim() === '') {
             setCurrentData(data);
             return;
@@ -140,7 +165,7 @@ export default function Grid({
         }
         break;
       case Toolbar.REFRESH:
-        if (localData) {
+        if (api.localData) {
           setCurrentData(data);
           return;
         }
@@ -149,7 +174,7 @@ export default function Grid({
         // const allButton = Toolbar.SHOW_ALL;
         const allButton = typeof value === 'function' ? { name: Toolbar.SHOW_ALL, filter: value } : Toolbar.SHOW_ALL;
         toggleButton(action, allButton);
-        if (localData) {
+        if (api.localData) {
           setCurrentData(filterAllData(data, value));
         }
         break;
@@ -157,7 +182,7 @@ export default function Grid({
         // const filterButton = Toolbar.FILTER;
         const filterButton = typeof value === 'function' ? { name: Toolbar.FILTER, filter: value } : Toolbar.FILTER;
         toggleButton(action, filterButton);
-        if (localData) {
+        if (api.localData) {
           setCurrentData(data);
         }
         break;

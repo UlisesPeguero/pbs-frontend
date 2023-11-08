@@ -35,7 +35,6 @@ export default function UsersGrid() {
           containerId: 'usersGridToolbar',
           search: true,
           buttons: [
-
             Toolbar.REFRESH,
             Toolbar.FILTER,
             Toolbar.PAGINATION
@@ -63,7 +62,13 @@ export default function UsersGrid() {
             length: 200,
             classes: 'fw-semibold text-center',
           }, {
-            name: 'roles',
+            name: 'employee.fullName',
+            label: 'Name',
+            searchable: true,
+            sortable: true,
+            length: 300,
+          }, {
+            name: 'rolesList',
             label: 'Roles',
             searchable: true,
             sortable: true,
