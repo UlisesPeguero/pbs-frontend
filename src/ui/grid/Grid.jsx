@@ -19,8 +19,14 @@ function RowToolBar({ data, rowToolBar }) {
   return <ToolBar gap={1} buttons={newToolBar} />;
 }
 
-function getDataByName(name, dataRow) {
-  return dataRow[name];
+function getDataByName(name, dataObject) {
+  let dotIndex = name.indexOf('.');
+  let leftName = name.substring(0, dotIndex);
+  if (dotIndex === -1 || !dataObject.hasOwnProperty(leftName)) {
+    return dataObject[name];
+  }
+  let rightName = name.substring(dotIndex + 1);
+  return getDataByName(rightName, dataObject[leftName]);
 }
 
 function DataRow({ model, data, rowToolBar }) {
