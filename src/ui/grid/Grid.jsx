@@ -25,8 +25,7 @@ function getDataByName(name, dataObject) {
   if (dotIndex === -1 || !dataObject.hasOwnProperty(leftName)) {
     return dataObject[name];
   }
-  let rightName = name.substring(dotIndex + 1);
-  return getDataByName(rightName, dataObject[leftName]);
+  return getDataByName(name.substring(dotIndex + 1), dataObject[leftName]);
 }
 
 function DataRow({ model, data, rowToolBar }) {
@@ -140,11 +139,11 @@ export default function Grid({
 
   useEffect(() => { // wait for DOM to be ready for the toolbar
     setDomReady(true);
-    if (!api.localData) {
+    if (!apiData.localData) {
       const response = getRemoteData(apiData, currentActivePage, currentRowsPerPage);
       response.then(data => setCurrentData(data));
     }
-  }, [apiData]);
+  }, [apiData, currentActivePage, currentRowsPerPage]);
 
   const toggleButton = (target, newButton) => {
     let _toolbar = { ...toolbar };
@@ -221,11 +220,11 @@ export default function Grid({
     if (typeof sortFunction !== 'function') {
       switch (type) {
         case 'number':
-          sortFunction = (a, b) => getSortDirection() * (a[name] - b[name]);
+          sortFunction = (a, b) => getSortDirection() * (getDataByName(name, a) - getDataByName(name, b));
           break;
         case 'string':
         default:
-          sortFunction = (a, b) => getSortDirection() * String(a[name]).localeCompare(b[name]);
+          sortFunction = (a, b) => getSortDirection() * String(getDataByName(name, a)).localeCompare(getDataByName(name, b));
       }
     } else {
       sortFunction = (a, b) => getSortDirection * sortFunction(a, b);
